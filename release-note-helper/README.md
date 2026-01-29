@@ -16,7 +16,8 @@ release-note-helper/
 │   └── generic-template.md     # Default template (CNCF style)
 ├── references/                 # Supporting documentation
 │   ├── best-practices.md       # CNCF release note best practices
-│   └── conventional-commits.md # Commit/PR parsing guidance
+│   ├── conventional-commits.md # Commit/PR parsing guidance
+│   └── deep-dive-checklist.md  # Checklist for key features
 └── scripts/                    # Utility scripts (future)
 ```
 
@@ -38,6 +39,7 @@ To ensure accurate scope, always include the previous version tag (for example, 
 1. Use the generic CNCF-style template
 2. Ask: "Create release note for volcano v1.14.0"
 3. If a project has a release planning board, highlight items from the board first
+4. **CRITICAL**: Provide the project board link for accurate key features
 
 ### For New CNCF Projects
 
@@ -66,6 +68,8 @@ The generic template is intended to align with CNCF projects:
 
 Use this workflow when drafting a release note:
 
+### Phase 1: Information Gathering
+
 1. **Collect key highlights**
    - Prefer project board, milestone, or release tracking issues
    - Summarize 3 to 6 key features for "What's New"
@@ -74,15 +78,72 @@ Use this workflow when drafting a release note:
    - Ask for the previous version tag if not provided
    - Use `[last_tag]...HEAD` for git history
 
-3. **Gather change data**
+3. **Deep dive into each key feature** (CRITICAL)
+   - Read design docs: `docs/design/`, `docs/proposals/`
+   - Read user guides: `docs/user-guide/`, `docs/guides/`
+   - Read related PRs and issues via MCP tools
+   - Read actual code for configuration format
+
+### Phase 2: Data Collection
+
+4. **Gather change data**
    - Pull PR titles and labels
    - Use file paths to infer categories if commit messages are inconsistent
+   - Collect bug fixes from BOTH git log AND project board
 
-4. **Fill the template**
+5. **Verify configuration formats**
+   - Find config definitions in code
+   - Determine if YAML, CLI flags, env vars, or CRD spec
+   - Get default values
+
+6. **Verify contributors**
+   - Check PR authors, not just git commit authors
+   - Use MCP `pull_request_read` to get accurate info
+
+### Phase 3: Writing
+
+7. **Fill the template**
    - Write "What's New" as short highlights
+   - Expand each key feature with:
+     - Background and motivation (2-3 paragraphs)
+     - Key capabilities (bullet list)
+     - Architecture (if complex)
+     - Configuration example (verified from code)
+     - Related links (PRs, design docs, user guides)
    - Populate "Other Notable Changes" by category
-   - Add links to PRs, issues, docs, and changelog
 
-5. **Finalize**
+8. **Add links and references**
+   - Link to PRs, issues, docs, and changelog
+   - Include design doc and user guide links for key features
+
+### Phase 4: Review
+
+9. **Finalize**
    - Ensure API changes and dependencies are visible
-   - Confirm contributors and new contributors
+   - Confirm contributors from PR authors
+   - Verify all configuration examples against actual code
+   - Check feature grouping is appropriate
+
+## Common Mistakes to Avoid
+
+See [references/best-practices.md](references/best-practices.md) for detailed guidance on:
+
+1. Shallow feature descriptions
+2. Incorrect configuration formats
+3. Incomplete bug fix lists
+4. Wrong contributor attribution
+5. Merged features that should be separate
+6. Missing API examples
+7. Single-repo mindset for multi-repo projects
+8. Missing related links
+
+## Quality Checklist
+
+Before publishing, verify:
+
+- [ ] Each key feature has background, motivation, config example, and related links
+- [ ] Configuration examples are verified from actual code
+- [ ] Bug fixes are complete (git log + project board)
+- [ ] Contributors are verified from PR authors
+- [ ] Features are appropriately grouped/separated
+- [ ] All related repos are checked for changes
