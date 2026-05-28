@@ -10,7 +10,7 @@ Released: [DATE]
 
 ## Summary
 
-[1-2 paragraph overview of this release's focus and key highlights. Answer the question: "Why should I upgrade?"]
+[1-2 paragraph overview of this release's focus and key highlights. Answer the question: "Why should I upgrade?" Match the previous release's tone and continue the project's product narrative when appropriate.]
 
 ## What's New
 
@@ -21,6 +21,8 @@ Released: [DATE]
 - **[Key Feature 1]**: [One-line impact summary]
 - **[Key Feature 2]**: [One-line impact summary]
 - **[Key Feature 3]**: [One-line impact summary]
+
+[Order key features by strategic importance and release narrative, not by merge date. Do not promote every feature PR to this list.]
 
 ### Key Feature Details
 
@@ -83,7 +85,7 @@ Related:
 
 ### API Changes
 
-[For each new CRD or API change, include a brief configuration example]
+[For each new CRD, public API, scheduler/framework extension point, plugin argument, command flag, Helm value, annotation, feature gate, or user-facing behavior change, include a brief configuration example when applicable]
 
 - **[New CRD/API Name]**: [What it is and why it matters]
 
@@ -172,13 +174,16 @@ When using this template:
 8. **No emoji** - release notes must not include emoji characters
 9. **No extra sections** - do not add sections beyond this template
 10. **Verify configurations** - ALWAYS check actual code for config format
+11. **Match previous release style** - read the previous release note before drafting
+12. **Rank by importance** - Key Features are the release's headline capabilities, not every feature PR
+13. **Use Alpha labels sparingly** - only for opt-in, disabled-by-default, upstream-dependent, or evolving-interface capabilities
 
 ### Section Guidelines
 
-- **Summary**: High-level overview, answer "why should I upgrade?"
+- **Summary**: High-level overview, answer "why should I upgrade?", and continue the project narrative when appropriate
 - **What's New**: Key features highlighted from project planning
   - Each feature needs: background, motivation, capabilities, config example, related links
-- **API Changes**: Public or external interface changes WITH config examples
+- **API Changes**: Public or external interface changes WITH config examples, including extension points, plugin args, flags, Helm values, annotations, and feature gates
 - **Features & Enhancements**: New capabilities and improvements
 - **Bug Fixes**: Corrections to unintended behavior (check BOTH git log AND project board)
 - **Dependencies**: Important dependency updates users should know
@@ -215,3 +220,7 @@ Group features if:
 - They are tightly coupled
 - One is a sub-component of another
 - They share the same background and motivation
+
+### Stability Label Guidelines
+
+Mark a feature as **Alpha** only when it is new and opt-in, disabled by default, depends on evolving upstream APIs, or has interfaces/behavior expected to change. Do not mark compatibility support, benchmark tooling, bug fixes, or incremental enhancements as Alpha unless project maintainers explicitly classify them that way.

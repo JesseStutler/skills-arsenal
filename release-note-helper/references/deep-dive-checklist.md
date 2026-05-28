@@ -4,10 +4,33 @@ This checklist ensures comprehensive coverage when documenting key features in r
 
 ## Before You Start
 
+- [ ] Read the previous stable release note and identified its structure, tone, and product narrative
 - [ ] Identified the key feature from project board or milestone
+- [ ] If the project board was inaccessible, recorded the fallback sources used
 - [ ] Found related PR numbers and issue numbers
 - [ ] Located design doc path (if exists)
 - [ ] Located user guide path (if exists)
+- [ ] Ranked features into Key Features, Features and Enhancements, Bug Fixes, and Other
+
+## Release Story Checklist
+
+- [ ] **What is the release narrative?**
+  - Write a 1-2 sentence internal story before drafting
+  - Connect the release to the project's larger positioning
+  - Avoid reducing the Summary to a list of PRs
+
+- [ ] **What is the most important feature?**
+  - Identify the highest-impact capability
+  - Explain why it matters to users/operators
+  - Put it first in Key Features unless the user provides a different order
+
+- [ ] **Which features are not Key Features?**
+  - Move incremental enhancements, compatibility updates, and small plugin changes to lower sections
+  - Group small related changes instead of giving each a headline
+
+- [ ] **What is the differentiating value?**
+  - State what this project does better or differently than common alternatives
+  - Avoid describing only implementation mechanics
 
 ## Information Gathering Checklist
 
@@ -60,6 +83,36 @@ This checklist ensures comprehensive coverage when documenting key features in r
   - List all configurable fields
   - Document default values
   - Provide example with correct format
+
+### 3.5 API and User-Facing Change Sweep
+
+Check external interfaces even when PR descriptions do not call them out:
+
+- [ ] CRDs, API structs, generated clients, and version changes
+- [ ] Scheduler framework extension points and plugin interfaces
+- [ ] Plugin arguments and configuration schema changes
+- [ ] Command-line flags and environment variables
+- [ ] Helm values and deployment manifests
+- [ ] Annotations, labels, feature gates, and resource key conventions
+- [ ] Behavior changes that affect users, operators, autoscalers, quota accounting, or integrations
+
+Document these in API Changes, Upgrade Instructions, or the relevant feature section.
+
+### 3.6 Stability Labeling
+
+- [ ] **Alpha label justified**
+  - New opt-in capability
+  - Disabled by default
+  - Depends on evolving upstream APIs
+  - Interface or behavior may change
+
+- [ ] **No Alpha label needed**
+  - Compatibility support
+  - Benchmark or observability tooling
+  - Bug fix or stability enhancement
+  - Incremental improvement to an existing stable capability
+
+If alpha features exist, add a release note explaining that only explicitly marked features are alpha-stage.
 
 ### 4. Related Resources
 
@@ -148,11 +201,15 @@ spec:
 Before finalizing the feature documentation:
 
 - [ ] Background explains WHY, not just WHAT
+- [ ] Summary follows the release story and previous release style
+- [ ] Key Features are ordered by importance, not merge date
 - [ ] Configuration example is verified against code
 - [ ] All related links (PRs, issues, docs) are included
 - [ ] Contributors are verified from PR authors
 - [ ] Technical terms are explained
 - [ ] Example is runnable/usable by readers
+- [ ] Every PR in the release range is covered, grouped, or intentionally excluded
+- [ ] API Changes include extension points, flags, Helm values, annotations, plugin args, and feature gates where applicable
 
 ## Common Mistakes
 
@@ -215,6 +272,30 @@ git log | grep -i "fix"  # Gets 15 fixes
 - Git log: 15 fixes
 - Project board "Bug" column: 8 additional fixes
 - Total: 23 fixes
+
+### Mistake 5: Promoting Every Feature PR to Key Feature
+
+**Bad:**
+> Every PR labeled `kind/feature` gets a Key Feature section.
+
+**Good:**
+> Rank by user impact and release narrative. Major new capabilities go to Key Features; incremental plugin updates, compatibility support, and small improvements go to Features and Enhancements or Other.
+
+### Mistake 6: Missing API Changes Because PRs Did Not Mention Them
+
+**Bad:**
+> API Changes only lists CRDs that PR authors explicitly called out.
+
+**Good:**
+> Scan code and manifests for extension point signatures, plugin arguments, Helm values, flags, annotations, resource keys, and behavior changes. Include user-facing changes even if the PR description omitted them.
+
+### Mistake 7: Overusing Alpha Labels
+
+**Bad:**
+> Mark all new features as Alpha to be safe.
+
+**Good:**
+> Mark only opt-in, disabled-by-default, upstream-dependent, or evolving-interface features as Alpha. Do not label benchmark tooling, compatibility support, stability fixes, or incremental enhancements as Alpha without project evidence.
 
 ## Feature Grouping Decision Tree
 
