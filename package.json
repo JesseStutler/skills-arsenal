@@ -1,0 +1,27 @@
+{
+  "name": "skills-arsenal",
+  "version": "0.1.0",
+  "description": "One-command installer for reusable AI agent skills.",
+  "license": "MIT",
+  "homepage": "https://github.com/JesseStutler/skills-arsenal#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JesseStutler/skills-arsenal.git"
+  },
+  "bin": {
+    "skills-arsenal": "bin/skills-arsenal.js"
+  },
+  "engines": {
+    "node": ">=16.7"
+  },
+  "keywords": [
+    "agent-skills",
+    "claude-code",
+    "cursor",
+    "gemini-cli",
+    "codex"
+  ],
+  "scripts": {
+    "check": "node bin/skills-arsenal.js list && bash -n install.sh"
+  }
+}
